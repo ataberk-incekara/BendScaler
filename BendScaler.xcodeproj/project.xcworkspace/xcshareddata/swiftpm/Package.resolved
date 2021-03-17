@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Layoutless",
+        "repositoryURL": "https://github.com/DeclarativeHub/Layoutless.git",
+        "state": {
+          "branch": null,
+          "revision": "63ff2afcc3cbb3dd4f8aabecfc749591b8d4ef21",
+          "version": "0.4.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

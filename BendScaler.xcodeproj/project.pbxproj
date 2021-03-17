@@ -3,16 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		028620E226016586004000F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028620E126016586004000F0 /* AppDelegate.swift */; };
 		028620E426016586004000F0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028620E326016586004000F0 /* SceneDelegate.swift */; };
 		028620E626016586004000F0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028620E526016586004000F0 /* ViewController.swift */; };
-		028620E926016586004000F0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 028620E726016586004000F0 /* Main.storyboard */; };
 		028620EB26016587004000F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 028620EA26016587004000F0 /* Assets.xcassets */; };
 		028620EE26016587004000F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 028620EC26016587004000F0 /* LaunchScreen.storyboard */; };
+		028620FA26016659004000F0 /* Layoutless in Frameworks */ = {isa = PBXBuildFile; productRef = 028620F926016659004000F0 /* Layoutless */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,7 +20,6 @@
 		028620E126016586004000F0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		028620E326016586004000F0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		028620E526016586004000F0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		028620E826016586004000F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		028620EA26016587004000F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		028620ED26016587004000F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		028620EF26016587004000F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -31,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				028620FA26016659004000F0 /* Layoutless in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,6 @@
 				028620E126016586004000F0 /* AppDelegate.swift */,
 				028620E326016586004000F0 /* SceneDelegate.swift */,
 				028620E526016586004000F0 /* ViewController.swift */,
-				028620E726016586004000F0 /* Main.storyboard */,
 				028620EA26016587004000F0 /* Assets.xcassets */,
 				028620EC26016587004000F0 /* LaunchScreen.storyboard */,
 				028620EF26016587004000F0 /* Info.plist */,
@@ -83,6 +82,9 @@
 			dependencies = (
 			);
 			name = BendScaler;
+			packageProductDependencies = (
+				028620F926016659004000F0 /* Layoutless */,
+			);
 			productName = BendScaler;
 			productReference = 028620DE26016586004000F0 /* BendScaler.app */;
 			productType = "com.apple.product-type.application";
@@ -110,6 +112,9 @@
 				Base,
 			);
 			mainGroup = 028620D526016586004000F0;
+			packageReferences = (
+				028620F826016659004000F0 /* XCRemoteSwiftPackageReference "Layoutless" */,
+			);
 			productRefGroup = 028620DF26016586004000F0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -126,7 +131,6 @@
 			files = (
 				028620EE26016587004000F0 /* LaunchScreen.storyboard in Resources */,
 				028620EB26016587004000F0 /* Assets.xcassets in Resources */,
-				028620E926016586004000F0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,14 +150,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		028620E726016586004000F0 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				028620E826016586004000F0 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		028620EC26016587004000F0 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -341,6 +337,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		028620F826016659004000F0 /* XCRemoteSwiftPackageReference "Layoutless" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/DeclarativeHub/Layoutless.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		028620F926016659004000F0 /* Layoutless */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 028620F826016659004000F0 /* XCRemoteSwiftPackageReference "Layoutless" */;
+			productName = Layoutless;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 028620D626016586004000F0 /* Project object */;
 }
