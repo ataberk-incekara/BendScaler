@@ -2,12 +2,30 @@
   "object": {
     "pins": [
       {
+        "package": "arcgis-runtime-ios",
+        "repositoryURL": "https://github.com/esri/arcgis-runtime-ios",
+        "state": {
+          "branch": null,
+          "revision": "41fc1abda4946b4546f3b0a9635b2c11b4bfd36f",
+          "version": "100.11.1"
+        }
+      },
+      {
         "package": "Layoutless",
         "repositoryURL": "https://github.com/DeclarativeHub/Layoutless.git",
         "state": {
           "branch": null,
           "revision": "63ff2afcc3cbb3dd4f8aabecfc749591b8d4ef21",
           "version": "0.4.2"
+        }
+      },
+      {
+        "package": "SwiftyJSON",
+        "repositoryURL": "https://github.com/SwiftyJSON/SwiftyJSON.git",
+        "state": {
+          "branch": null,
+          "revision": "b3dcd7dbd0d488e1a7077cb33b00f2083e382f07",
+          "version": "5.0.1"
         }
       }
     ]

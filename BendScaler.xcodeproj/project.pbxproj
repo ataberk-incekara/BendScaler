@@ -13,6 +13,10 @@
 		028620EB26016587004000F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 028620EA26016587004000F0 /* Assets.xcassets */; };
 		028620EE26016587004000F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 028620EC26016587004000F0 /* LaunchScreen.storyboard */; };
 		028620FA26016659004000F0 /* Layoutless in Frameworks */ = {isa = PBXBuildFile; productRef = 028620F926016659004000F0 /* Layoutless */; };
+		02B1FD00263394E10054E6C3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B1FCFF263394E10054E6C3 /* ProfileViewController.swift */; };
+		02BBE0D72636256800E43BD8 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02BBE0D62636256800E43BD8 /* Media.xcassets */; };
+		02D8E47B266D01EB00DF0F28 /* ArcGIS in Frameworks */ = {isa = PBXBuildFile; productRef = 02D8E47A266D01EB00DF0F28 /* ArcGIS */; };
+		02D8E47F266D585C00DF0F28 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 02D8E47E266D585C00DF0F28 /* SwiftyJSON */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +27,8 @@
 		028620EA26016587004000F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		028620ED26016587004000F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		028620EF26016587004000F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02B1FCFF263394E10054E6C3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		02BBE0D62636256800E43BD8 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,7 +36,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02D8E47F266D585C00DF0F28 /* SwiftyJSON in Frameworks */,
 				028620FA26016659004000F0 /* Layoutless in Frameworks */,
+				02D8E47B266D01EB00DF0F28 /* ArcGIS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +48,7 @@
 		028620D526016586004000F0 = {
 			isa = PBXGroup;
 			children = (
+				02BBE0D62636256800E43BD8 /* Media.xcassets */,
 				028620E026016586004000F0 /* BendScaler */,
 				028620DF26016586004000F0 /* Products */,
 			);
@@ -59,6 +68,7 @@
 				028620E126016586004000F0 /* AppDelegate.swift */,
 				028620E326016586004000F0 /* SceneDelegate.swift */,
 				028620E526016586004000F0 /* ViewController.swift */,
+				02B1FCFF263394E10054E6C3 /* ProfileViewController.swift */,
 				028620EA26016587004000F0 /* Assets.xcassets */,
 				028620EC26016587004000F0 /* LaunchScreen.storyboard */,
 				028620EF26016587004000F0 /* Info.plist */,
@@ -84,6 +94,8 @@
 			name = BendScaler;
 			packageProductDependencies = (
 				028620F926016659004000F0 /* Layoutless */,
+				02D8E47A266D01EB00DF0F28 /* ArcGIS */,
+				02D8E47E266D585C00DF0F28 /* SwiftyJSON */,
 			);
 			productName = BendScaler;
 			productReference = 028620DE26016586004000F0 /* BendScaler.app */;
@@ -114,6 +126,8 @@
 			mainGroup = 028620D526016586004000F0;
 			packageReferences = (
 				028620F826016659004000F0 /* XCRemoteSwiftPackageReference "Layoutless" */,
+				02D8E479266D01EB00DF0F28 /* XCRemoteSwiftPackageReference "arcgis-runtime-ios" */,
+				02D8E47D266D585C00DF0F28 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = 028620DF26016586004000F0 /* Products */;
 			projectDirPath = "";
@@ -130,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				028620EE26016587004000F0 /* LaunchScreen.storyboard in Resources */,
+				02BBE0D72636256800E43BD8 /* Media.xcassets in Resources */,
 				028620EB26016587004000F0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,6 +158,7 @@
 			files = (
 				028620E626016586004000F0 /* ViewController.swift in Sources */,
 				028620E226016586004000F0 /* AppDelegate.swift in Sources */,
+				02B1FD00263394E10054E6C3 /* ProfileViewController.swift in Sources */,
 				028620E426016586004000F0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,6 +363,22 @@
 				minimumVersion = 0.4.2;
 			};
 		};
+		02D8E479266D01EB00DF0F28 /* XCRemoteSwiftPackageReference "arcgis-runtime-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/esri/arcgis-runtime-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 100.11.1;
+			};
+		};
+		02D8E47D266D585C00DF0F28 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -354,6 +386,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 028620F826016659004000F0 /* XCRemoteSwiftPackageReference "Layoutless" */;
 			productName = Layoutless;
+		};
+		02D8E47A266D01EB00DF0F28 /* ArcGIS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 02D8E479266D01EB00DF0F28 /* XCRemoteSwiftPackageReference "arcgis-runtime-ios" */;
+			productName = ArcGIS;
+		};
+		02D8E47E266D585C00DF0F28 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 02D8E47D266D585C00DF0F28 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

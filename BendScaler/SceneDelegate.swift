@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
+        Thread.sleep(forTimeInterval: 0.3)
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
     }
