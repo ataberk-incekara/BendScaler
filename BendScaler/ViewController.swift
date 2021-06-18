@@ -61,7 +61,12 @@ class ViewController: UIViewController {
     var weather_int = 0
     var weather_main = ""
     var weather_description = ""
+    var should_warn = false
     var timer = 300
+    var warnTimer = 1000000
+    var warnCounter = 0
+    var bend_ct = 999
+    var warn_ct = 999
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -276,7 +281,6 @@ class ViewController: UIViewController {
             for i in 0...counter-1{
                 let pointS = route.steps[i].polyline
                 for j in 0...pointS.pointCount - 1{
-                    //print("point count of step:",i,"----> ",pointS.pointCount)
                     next_Y = pointS.points()[j+1].coordinate.latitude
                     next_X = pointS.points()[j+1].coordinate.longitude
                     coord_Y = pointS.points()[j].coordinate.latitude
@@ -293,10 +297,7 @@ class ViewController: UIViewController {
                 }
             }
             print("Total Node Count:",self.nodes.count)
-            //var node_ct=nodes.count
-            //self.add_annotation(index: &node_ct,node: &nodes)
             self.mapView.addOverlay(route.polyline)
-            //self.mapView.addOverlay(route.steps[0].polyline)
             self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16), animated: true)
             self.getBends(node: &self.nodes)
         }
@@ -326,15 +327,13 @@ class ViewController: UIViewController {
                 print("bend:",i+1,bends[i])
             //}
         }
-        
         self.add_bend_annotation(index: &bend_ct,bend: &bends,node: &node)
     }
     
     private func add_annotation(index: inout Int,node: inout [Nodes]){
         self.mapView.removeAnnotations(self.mapView.annotations)
         for index in 0...index-1 {
-            let annotation = MKPointAnnotation()  // <-- new instance here
-            //print("node:",index,node[index])
+            let annotation = MKPointAnnotation()  // new instance
             annotation.coordinate = CLLocationCoordinate2D(latitude: node[index].latt, longitude: node[index].long)
             annotation.title = "Point \(index+1)"
             self.mapView.addAnnotation(annotation)
@@ -343,10 +342,8 @@ class ViewController: UIViewController {
     
     private func add_bend_annotation(index: inout Int,bend: inout [Bends],node: inout [Nodes]){
         self.mapView.removeAnnotations(self.mapView.annotations)
-        //print("I m annotation func:",index)
         for index in 0...index-1 {
-            let annotation = MKPointAnnotation()  // <-- new instance here
-            //print("node:",index,node[index])
+            let annotation = MKPointAnnotation()  // new instance here
             annotation.coordinate = CLLocationCoordinate2D(latitude: node[index+1].latt, longitude: node[index+1].long)
             annotation.title = "Bend: \(index+1)"
             switch bend[index].grade{
@@ -417,51 +414,121 @@ class ViewController: UIViewController {
         else if bend_scale<=55 && bend_scale>30{
             scale = 4
         }
-        else if bend_scale<=80 && bend_scale>55{
+        else if bend_scale<=85 && bend_scale>55{
             scale = 3
         }
-        else if bend_scale<=105 && bend_scale>80{
+        else if bend_scale<=157 && bend_scale>85{
             scale = 2
         }
         else{
             scale = 1
         }
-        //CAR TYPE
-        
         return scale;
     }
     
-    func speedInfo(curr_x: Double, curr_y: Double){
-        //x = Vo t + 1/2 a . t2  
+    func speedInfo(curr_x: Double, curr_y: Double, speed: Double){
+        while bends[bendCounter+2].grade<2 || (bends[bendCounter+2].advisory_speed > bends[bendCounter+3].advisory_speed && bends[bendCounter+3].first_leg < 20) {
+            bendCounter += 1
+        }
         let dist = meter_calculator(lat1: nodes[bendCounter+3].latt, lon1: nodes[bendCounter+3].long, lat2: curr_y, lon2: curr_x)
-        if(dist<60 && dist>5){
-            DispatchQueue.main.async{ [self] in
-                var bend_curr_speed = (bends[bendCounter+2].advisory_speed)
-                var bend_before_speed = (bends[bendCounter+1].advisory_speed)
-                //advisory_speed = speedDecider(curr_speed: bend_curr_speed, bend_before_speed:)
-                if city == true && bend_curr_speed > 60{
-                    bend_curr_speed = 60
-                    bend_before_speed = 60
-                }
-                if city == false && bend_curr_speed > 120{
-                    bend_curr_speed = 120
-                    bend_before_speed = 120
-                }
-                if bends[bendCounter+2].grade>=1{
-                    self.speed_info.text = "For Bend \(bendCounter+3) Advisory Speed: \(bend_curr_speed)"
-                    if bend_curr_speed != bend_before_speed{
-                        if bend_curr_speed < bend_before_speed  {
-                            let text = "Advisory Speed: \(bend_curr_speed)"
-                            let utterance = AVSpeechUtterance(string: text)
-                            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-                            utterance.rate = 0.6
-                            let synthesizer = AVSpeechSynthesizer()
-                            synthesizer.speak(utterance)
-                        }
-                    }
-                }
-                bendCounter+=1
+        print("city: ",city)
+        print("bend: ", bendCounter+3)
+        print("speed: ", speed)
+        print("dist: ",dist)
+        print("warnCounter: ",warnCounter)
+        let bend_curr_speed = (bends[bendCounter+2].advisory_speed)
+        let advisory_speed = speedDecider(curr_speed: bend_curr_speed)
+        let whenWarn = speedWarner(advisory_speed: advisory_speed, speed: speed)
+        print("warn dist: ",whenWarn)
+        if dist < whenWarn {
+            let text = "Advisory Speed: \(advisory_speed)"
+            let utterance = AVSpeechUtterance(string: text)
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-EN")
+            utterance.rate = 0.57
+            utterance.volume = 0.4
+            if bendCounter - bend_ct < 8 {
+                warnCounter = warn_ct
             }
+            if warnCounter > 0 {
+                utterance.volume = utterance.volume + (Float(Double(warnCounter)) / 20 )
+            }
+            print("volume: ",utterance.volume)
+            print("bend_ct: ", bend_ct)
+            print("bendCounter: ",bendCounter)
+            self.speed_info.text = "For Bend \(bendCounter+3) Advisory Speed: \(advisory_speed)"
+            let synthesizer = AVSpeechSynthesizer()
+            if bendCounter - bend_ct > 1{
+                warn_ct = 1
+            }
+            if bendCounter - bend_ct == 1{
+                warn_ct = 2
+            }
+            if warn_ct == 0{
+                synthesizer.speak(utterance)
+            }
+            if warn_ct % 3 == 0 && warn_ct > 0{
+                synthesizer.speak(utterance)
+            }
+            if dist >= 100{
+                warnCounter += 1
+            }
+        }
+        warn_ct = warnCounter
+        if dist >= 100 && dist >= whenWarn{
+            warnCounter = 0
+        }
+        if dist < 100 {
+            warnCounter = 0
+            bendCounter += 1
+        }
+        bend_ct = bendCounter
+    }
+    
+    func speedWarner(advisory_speed: Int, speed: Double) -> Double {
+        let adv = Double(advisory_speed)
+        let time = (speed - adv) / 5                        //V = V0 - a . t
+        let dist = (speed * time) - (2.5 * time * time)        //x = Vo t - 1/2 a . t2
+        return dist
+    }
+
+    
+    func speedDecider(curr_speed: Int) -> Int {
+        var advisory_speed = Double(curr_speed)
+        if city == false && weather_int == 0{ //şehirdışı -- asfalt iyi
+            advisory_speed = Double(curr_speed)
+        }
+        else if city == false && weather_int == 1{ //şehirdışı -- asfalt orta
+            advisory_speed = Double(curr_speed) * (0.77)
+        }
+        else if city == false && weather_int == 2{ //şehirdışı -- asfalt kötü
+            advisory_speed = Double(curr_speed) * (0.4)
+        }
+        else if city == false && weather_int == 0{ //şehiriçi -- asfalt iyi
+            advisory_speed = Double(curr_speed) * (0.98)
+        }
+        else if city == false && weather_int == 1{ //şehiriçi -- asfalt orta
+            advisory_speed = Double(curr_speed) * (0.74)
+        }
+        else if city == false && weather_int == 2{ //şehiriçi -- asfalt kötü
+            advisory_speed = Double(curr_speed) * (0.37)
+        }
+        
+        if settings.carType == 2 {
+            advisory_speed = advisory_speed * (0.5)
+        }
+        else if settings.carType == 1 {
+            advisory_speed = advisory_speed * (0.7)
+        }
+        else{}
+        
+        if city == false && advisory_speed > 120 {
+            return 120
+        }
+        else if city == true && advisory_speed > 60{
+            return 60
+        }
+        else{
+            return Int(advisory_speed)
         }
     }
 
@@ -499,13 +566,13 @@ class ViewController: UIViewController {
                     }
                 }).resume()
         if weather_main == "Snow"{
-            weather_int = 0
+            weather_int = 2
         }
         else if weather_main == "Thunderstorm" || weather_main == "Drizzle" || weather_main == "Rain"{
             weather_int = 1
         }
         else{
-            weather_int = 2
+            weather_int = 0
         }
         print("weather: ", weather_int)
     }
@@ -562,7 +629,10 @@ extension ViewController: CLLocationManagerDelegate{
                 howIsWeather(current_x: x,current_y: y)
                 timer = 300
             }
-            speedInfo(curr_x: x, curr_y: y)
+            var speed: CLLocationSpeed = CLLocationSpeed()
+            speed = locationManager.location!.speed
+            speed *= 4.2
+            speedInfo(curr_x: x, curr_y: y, speed: speed)
             guard let center = location?.coordinate else { return }
             centerViewToUserLocationDrive(center: center)
             timer -= 1
